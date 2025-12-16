@@ -8,7 +8,7 @@ Ce projet est un jeu multijoueur inspiré de Tron, jouable à la fois dans le na
 
 - Authentification simple (identifiant + mot de passe) avec stockage local temporaire dans le navigateur
 - Choix de couleur du joueur et affichage du pseudo du joueur connecté
-- Création de lobbies (nom, 2 à 4 joueurs), liste paginée, recherche instantanée, possibilité de rejoindre/quitter un lobby
+- Création de lobbies (nom, 2 à 4 joueurs), liste paginée, recherche instantanée, possibilité de rejoindre et dequitter un lobby
 - Système d’état des joueurs (“Prêt” ou non), compte à rebours avant le lancement d'une partie, expulsion en cas de plus de 30 secondes d'inactivité
 - Partie en temps réel : envoi des déplacements, rendu du trail sur SVG, synchronisation des positions via WebSocket
 - Contrôles sur clavier (flèches) et boutons tactiles sur l'interface pour les téléphones
@@ -47,7 +47,7 @@ Ce projet est un jeu multijoueur inspiré de Tron, jouable à la fois dans le na
 - **Communication WebSocket** : initialisée dans `www/js/init.js` (`global.ws = new WebSocket("ws://localhost:9898/");`) puis centralisée dans `www/js/WebsocketClient.js` qui distribue les paquets vers les handlers.
 - **Handlers** :
   - `ConnectionHandler.js` : connexion utilisateur, stockage temporaire du mot de passe (5 min) via `localStorage`, navigation vers l’accueil.
-  - `LobbyHandler.js` : récupération/affichage des lobbies, bouton “Prêt ?”, compte à rebours, join/quit, pagination (2 lobbies par page) et recherche.
+  - `LobbyHandler.js` : récupération/affichage des lobbies, bouton “Prêt ?”, compte à rebours, rejoindre et quitter un lobby, pagination (2 lobbies par page) et recherche.
   - `GameHandler.js` : démarrage de partie, affichage du trail via SVG, réception des mouvements (`updateAllPlayerMovements`), fin/restart de partie.
   - `ControlHandler.js` : envoi des déplacements (touches fléchées ou boutons tactiles), blocage des directions impossibles (demi-tour).
   - `LeaderboardHandler.js` : affichage du classement (victoires/défaites).
@@ -55,12 +55,14 @@ Ce projet est un jeu multijoueur inspiré de Tron, jouable à la fois dans le na
 
 ## 6. Base de données MongoDB
 
-Pour tester la fonctionnalité de classement, nous avons fourni une base de données pré-remplie.
+Pour notamment tester la fonctionnalité de classement, nous avons fourni une base de données pré-remplie.
 
 Voici les 5 joueurs de la base de données :
 `xebec`, `bilbo`, `zack`, `imu` et `c#`.
 
 Tous les joueurs ont le même mot de passe : `a`.
+
+Vous pouvez évidemment créer de nouveaux utilisateurs, en fournissant un pseudo qui n'est pas un des 5 pseudos cités ci-dessus.
 
 ## 7. Documentation de déploiement
 
@@ -92,15 +94,15 @@ mongod --dbpath ./mongo-data
 # Depuis un nouveau terminal et le dossier serveur
 cd serveur
 npm install
-#Lancer le serveur dans le même terminal
-node WebsocketServer.js   # WebSocket exposé sur ws://localhost:9898/, à changer au besoin
+# Lancer le serveur dans le même terminal
+node WebsocketServer.js
 ```
 
 > Assurez-vous d'avoir bien lancé MongoDB ! Vérifiez votre configuration dans `serveur/db.js`.
 
 ### 7.3 Lancer le client Cordova (navigateur)
 
-- Si besoin, dans `init.js`, remplacez `localhost` par l'adresse IP Websocket pour celle du serveur sur votre réseau :
+- Si besoin, dans `client/www/js/init.js`, remplacez `localhost` par l'adresse IP Websocket pour celle du serveur sur votre réseau :
 
 ```js
 global.ws = new WebSocket("ws://localhost:9898/");
@@ -114,13 +116,15 @@ cd client
 # Activer l'environnement conda DevWeb pour avoir cordova (cf. Moodle pour la mise en place de cet environnement)
 conda activate DevWeb
 npm install
-cordova platform add browser   # s'il n'est pas déjà ajouté
-cordova run browser            # ouvre l’app dans le navigateur
+# S'il n'est pas déjà ajouté :
+cordova platform add browser
+# Lancer l’application dans le navigateur
+cordova run browser
 ```
 
 ### 7.4 Lancer le client sur Android
 
-- Si besoin, dans `init.js`, remplacez `localhost` par l'adresse IP Websocket pour celle du serveur sur votre réseau :
+- Si besoin, dans `client/www/js/init.js`, remplacez `localhost` par l'adresse IP Websocket pour celle du serveur sur votre réseau :
 
 ```js
 global.ws = new WebSocket("ws://localhost:9898/");
@@ -145,13 +149,13 @@ conda activate DevWeb
 ```sh
 cordova platform add android
 
-cordova build android # Si le build échoue, assurez-vous d'avoir bien exporté ANDROID_HOME (cf. LaunchCordova.sh)
+cordova build android # Si le build échoue, assurez-vous d'avoir bien exporté ANDROID_HOME (cf. LaunchCordova.sh sur Moodle)
 ```
 
-- Option 1 :Lancez un émulateur sur Android Studio (ou connectez votre téléphone à votre ordinateur, [voir la procédure ici](https://developer.android.com/codelabs/basic-android-kotlin-compose-connect-device?hl=fr)) sur le même réseau. Ensuite, lancez la commande :
+- Option 1 : Lancez un émulateur sur Android Studio (ou connectez votre téléphone à votre ordinateur, [voir la procédure ici](https://developer.android.com/codelabs/basic-android-kotlin-compose-connect-device?hl=fr)) sur le même réseau. Ensuite, lancez la commande :
 
 ```sh
 cordova run android
 ```
 
-- Option 2 : Téléchargez sur votre téléphone l'APK créé après le build, dans (`/client/platforms/android/app/build/outputs/apk/debug/`)
+- Option 2 : Téléchargez sur votre téléphone l'APK créé après le build, dans (`client/platforms/android/app/build/outputs/apk/debug/`)
