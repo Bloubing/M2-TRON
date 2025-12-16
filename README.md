@@ -60,31 +60,27 @@ Tous les joueurs ont le même mot de passe : `a`.
 
 ### Pré-requis
 
-| Outil               | Version conseillée       | Rôle                                                          |
-| ------------------- | ------------------------ | ------------------------------------------------------------- |
-| Environnement conda | (optionnel)              | Activer l’environnement MongoDB : Ex : `conda activate mongo` |
-| Node.js + npm       | ≥ 18                     | Dépendances et serveur WebSocket                              |
-| Cordova             | `npm install -g cordova` | Build/run client web et mobile                                |
-| MongoDB             | ≥ 6                      | Persistance joueurs / classement                              |
+| Outil               | Version conseillée | Rôle                                                          |
+| ------------------- | ------------------ | ------------------------------------------------------------- |
+| Environnement conda | (optionnel)        | Activer l’environnement MongoDB : Ex : `conda activate mongo` |
+| Node.js + npm       | ≥ 18               | Dépendances et serveur WebSocket                              |
+| Cordova             | Version NPM        | Build/run client web et mobile                                |
+| MongoDB             | ≥ 6                | Stockage joueurs / parties                                    |
 
 ### Installation
 
 ### 7.1 Lancer MongoDB
-
-```sh
-# Depuis le terminal du dossier serveur
-mongod --dbpath ./mongo-data
-```
-
-### 7.2 Lancer le serveur Node.js
 
 Commencez par lancer MongoDB :
 
 ```sh
 conda activate mongo # si MongoDB est dans un environnement conda (cf. installation Moodle)
 
-mongod --dbpath ./CHEMIN/VERS/mongo-data
+# Depuis le terminal du dossier principal
+mongod --dbpath ./mongo-data
 ```
+
+### 7.2 Lancer le serveur Node.js
 
 ```sh
 # Depuis un nouveau terminal et le dossier serveur
@@ -93,6 +89,8 @@ npm install
 #Lancer le serveur dans le même terminal
 node WebsocketServer.js   # WebSocket exposé sur ws://localhost:9898/, à changer au besoin
 ```
+
+> Assurez-vous d'avoir bien lancé MongoDB ! Vérifiez votre configuration dans `serveur/db.js`.
 
 ### 7.3 Lancer le client Cordova (navigateur)
 
@@ -140,13 +138,14 @@ conda activate DevWeb
 
 ```sh
 cordova platform add android
-cordova build android
+
+cordova build android # Si le build échoue, assurez-vous d'avoir bien exporté ANDROID_HOME (cf. LaunchCordova.sh)
 ```
 
-- Lancez un émulateur sur Android Studio (ou connectez votre téléphone à votre ordinateur, [voir la procédure ici](https://developer.android.com/codelabs/basic-android-kotlin-compose-connect-device?hl=fr)) sur le même réseau.
-
-- Ensuite, lancez la commande :
+- Option 1 :Lancez un émulateur sur Android Studio (ou connectez votre téléphone à votre ordinateur, [voir la procédure ici](https://developer.android.com/codelabs/basic-android-kotlin-compose-connect-device?hl=fr)) sur le même réseau. Ensuite, lancez la commande :
 
 ```sh
 cordova run android
 ```
+
+- Option 2 : Téléchargez sur votre téléphone l'APK créé après le build, dans (`/client/platforms/android/app/build/outputs/apk/debug/`)
