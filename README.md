@@ -15,7 +15,13 @@ Ce projet est un jeu multijoueur inspiré de Tron, jouable à la fois dans le na
 - Fin de partie avec un message gagnant/perdant et possibilité de relancer ou de rejoindre une partie relancée par un autre joueur
 - Classement des joueurs (victoires/défaites, top 5)
 
-## 2. Fichiers importants
+## 2. Fichiers et dossiers importants
+
+- Le rapport (`Rapport.pdf`)
+- La spécification des paquets (`specification_paquets.md`)
+- Le projet côté serveur (`serveur/`)
+- Le projet côté client (`client/`)
+- La base de données (`mongo-data/`)
 
 ## 3. Architecture du système
 
