@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="Content-Security-Policy"
+      content="connect-src *; default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *; img-src 'self' data: content:;script-src 'self' http://* 'unsafe-inline' 'unsafe-eval' ;">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="msapplication-tap-highlight" content="no">
+    <meta name="viewport" content="initial-scale=1, width=device-width, viewport-fit=cover">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark">
+    <title>TRON</title>
+    <link href="css/tron.css" rel="stylesheet">
+
+  </head>
+
+  <body>
+    <div class="app">
+
+      <!-- Écran de connexion -->
+      <section id="loginScreen" class="screen">
+        <h1>Connexion</h1>
+        <input id="loginInput" placeholder="Identifiant">
+        <input id="passwordInput" type="password" placeholder="Mot de passe">
+        <button id="loginBtn">Continuer</button>
+      </section>
+
+      <!-- Menu principal -->
+      <section id="homeScreen" class="screen">
+        <h2>Bienvenue <span id="usernameDisplay"></span></h2>
+        <button id="playBtn">Jouer</button>
+        <button id="leaderboardBtn">Classement</button>
+      </section>
+
+      <!-- Écran de classement -->
+      <section id="leaderboardScreen" class="screen">
+        <h2>Classement</h2>
+        <div id="playerList"></div>
+        <button id="leaderboardHomeBtn">Accueil</button>
+      </section>
+
+      <!-- Écran de création de lobby -->
+      <section id="lobbyScreen" class="screen">
+        <h2>Lobby</h2>
+        <p id="connectedUser"></p>
+        <button id="toggleLobbyFormBtn">Créer un lobby</button>
+        <input id="lobbySearchInput" placeholder="Rechercher un lobby..." />
+        <div id="createLobbyForm">
+          <input id="lobbyNameInput" placeholder="Nom du lobby">
+          <input id="maxPlayersInput" type="number" min="2" max="4" value="2">
+          <button id="confirmCreateLobbyBtn">Créer</button>
+        </div>
+        <div id="lobbyList"></div>
+        <div id="paginationControls"></div>
+        <button id="lobbyHomeBtn">Accueil</button>
+      </section>
+
+      <!-- Écran de partie -->
+      <section id="gameScreen" class="screen">
+        <div id="hud">
+          <!-- Choix de couleur -->
+          <div id="colorSelection">
+            <p>Choisis ta couleur :</p>
+            <div class="colorButtons">
+              <div class="colorOption">
+                <button class="colorBtn" id="cyanBtn" data-color="#00ffff"></button>
+                <span class="colorLabel"></span>
+              </div>
+              <div class="colorOption">
+                <button class="colorBtn" id="pinkBtn" data-color="#ff00ff"></button>
+                <span class="colorLabel"></span>
+              </div>
+              <div class="colorOption">
+                <button class="colorBtn" id="greenBtn" data-color="#00ff00"></button>
+                <span class="colorLabel"></span>
+              </div>
+              <div class="colorOption">
+                <button class="colorBtn" id="yellowBtn" data-color="#ffff00"></button>
+                <span class="colorLabel"></span>
+              </div>
+            </div>
+          </div>
+
+          <button id="readyBtn">Prêt ?</button>
+        </div>
+        <svg id="svgCanvas" xmlns="http://www.w3.org/2000/svg" width="300" height="300">
+
+        </svg>
+        <button id="quitBtn">Quitter</button>
+      </section>
+
+      <!-- Contrôles tactiles -->
+      <section id="globalMobileControls">
+        <div><button class="controlBtn" id="upBtn">↑</button></div>
+        <div class="middleRow">
+          <button class="controlBtn" id="leftBtn">←</button>
+          <button class="controlBtn" id="downBtn">↓</button>
+          <button class="controlBtn" id="rightBtn">→</button>
+        </div>
+      </section>
+
+      <!-- Écran de fin de jeu -->
+      <section id="gameEndedScreen" class="screen">
+        <h2>Fin de la partie</h2>
+        <p id="gameEndText"></p>
+        <button id="restartBtn">Rejouer</button>
+        <button id="gameEndHomeBtn">Accueil</button>
+      </section>
+
+      <!-- Écran de message-->
+      <section id="messageScreen">
+        <h2 id="messageTitle"></h2>
+        <p id="messageText"></p>
+        <button id="messageScreenBtn">OK</button>
+      </section>
+
+      <div id="overlay"></div>
+
+    </div>
+    <script src="cordova.js"></script>
+    <script src="./js/handlers/ConnectionHandler.js" type="module"></script>
+    <script src="./js/WebsocketClient.js" type="module"></script>
+  </body>
+
+</html>

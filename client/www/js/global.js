@@ -1,0 +1,45 @@
+// === Variables et fonctions globales ===
+
+// Variables globales côté client accessibles depuis les différents fichiers
+export const global = {
+  ws: null,
+  username: "",
+  gameId: "",
+  readySent: false,
+};
+
+// Fonctions globales d'interface utilisateur
+export const globalUI = {
+  showScreen,
+  showMessageScreen,
+  closeMessageScreen,
+};
+
+// Fonction pour simplifier l'envoi de requêtes
+export function sendServer(data) {
+  global.ws.send(JSON.stringify(data));
+}
+
+// Fonction pour afficher un seul écran et fermer les autres
+function showScreen(id) {
+  document
+    .querySelectorAll(".screen")
+    .forEach((s) => (s.style.display = "none"));
+  document.getElementById(id).style.display = "flex";
+}
+
+// Fonction pour afficher un message dans un modal (par défaut, une erreur)
+function showMessageScreen(title, message) {
+  document.getElementById("overlay").style.display = "block";
+  document.getElementById("messageScreen").style.display = "block";
+
+  document.getElementById("messageTitle").textContent = title || "Erreur";
+  document.getElementById("messageText").textContent =
+    message || "Une erreur est survenue";
+}
+
+// Fonction pour fermer un message modal ouvert
+function closeMessageScreen() {
+  document.getElementById("overlay").style.display = "none";
+  document.getElementById("messageScreen").style.display = "none";
+}
