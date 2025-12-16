@@ -78,6 +78,14 @@ mongod --dbpath ./mongo-data
 
 ### 7.2 Lancer le serveur Node.js
 
+Commencez par lancer MongoDB :
+
+```sh
+conda activate mongo # si MongoDB est dans un environnement conda (cf. installation Moodle)
+
+mongod --dbpath ./CHEMIN/VERS/mongo-data
+```
+
 ```sh
 # Depuis un nouveau terminal et le dossier serveur
 cd serveur
@@ -85,8 +93,6 @@ npm install
 #Lancer le serveur dans le même terminal
 node WebsocketServer.js   # WebSocket exposé sur ws://localhost:9898/, à changer au besoin
 ```
-
-> Assurez-vous que MongoDB est démarré (`mongod`). Pour modifier l’URL de connexion, ajustez `db.js`.
 
 ### 7.3 Lancer le client Cordova (navigateur)
 
