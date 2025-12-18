@@ -8,6 +8,8 @@ let gameStarted = false;
 const squareSize = 3;
 // Etat des joueurs
 let playersState = {};
+// Groupes SVG pour chaque joueur (pour gérer l'opacité globalement)
+let playerGroups = {};
 // Couleur par défaut de la trail d'un joueur
 let trailColor = "#00ffff";
 
@@ -77,21 +79,37 @@ function handleRestartGameResponse(data) {
 
 // Gère la mise à jour des trails des joueurs
 function updatePlayers(players) {
+  // Initialiser le joueur et son groupe SVG s'il n'existe pas
   players.forEach((player) => {
     if (!playersState[player.username]) {
       playersState[player.username] = {
         color: player.color || trailColor,
+        alive: true,
       };
+
+      // Créer un groupe SVG pour ce joueur
+      playerGroups[player.username] = createSvgElement("g", {});
+      svgCanvas.appendChild(playerGroups[player.username]);
     }
+
     const state = playersState[player.username];
     state.color = player.color || trailColor;
+
+    // Mettre à jour l'état de vie du joueur
+    if (player.alive !== undefined && state.alive !== player.alive) {
+      state.alive = player.alive;
+
+      // Changer l'opacité du groupe entier
+      const opacity = state.alive ? 1 : 0.3;
+      playerGroups[player.username].setAttribute("opacity", opacity);
+    }
 
     if (player.username === global.username && player.currentDirection) {
       // On garde la direction des joueurs pour éviter le spam de directions impossibles
       ControlHandler.currentDirection = player.currentDirection;
     }
 
-    // On dessine le dernier rect du trail
+    // On crée le rectangle pour cette position
     const rect = createSvgElement("rect", {
       x: player.x * squareSize,
       y: player.y * squareSize,
@@ -99,8 +117,9 @@ function updatePlayers(players) {
       height: squareSize,
       fill: state.color,
     });
-    // On l'ajoute au SVG
-    svgCanvas.append(rect);
+
+    // Ajouter le rectangle au groupe du joueur
+    playerGroups[player.username].appendChild(rect);
   });
 }
 
@@ -171,6 +190,7 @@ function startGame() {
 
   // Réinitialisation de l'état des joueurs
   playersState = {};
+  playerGroups = {};
 
   // Affichage des contrôles
   document.getElementById("globalMobileControls").style.display = "flex";

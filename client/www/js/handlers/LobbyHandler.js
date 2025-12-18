@@ -9,6 +9,7 @@ const perPage = 2;
 
 document.getElementById("playBtn").onclick = goToLobby;
 document.getElementById("toggleLobbyFormBtn").onclick = toggleLobbyForm;
+document.getElementById("cancelLobbyFormBtn").onclick = toggleLobbyForm;
 document.getElementById("lobbyHomeBtn").onclick = () =>
   globalUI.showScreen("homeScreen");
 document.getElementById("confirmCreateLobbyBtn").onclick = createLobby;
@@ -121,7 +122,20 @@ function leaveLobbyAndGoToHome() {
 // Affiche la liste des lobbies
 function toggleLobbyForm() {
   const form = document.getElementById("createLobbyForm");
-  form.style.display = form.style.display === "flex" ? "none" : "flex";
+  const createBtn = document.getElementById("toggleLobbyFormBtn");
+  const cancelBtn = document.getElementById("cancelLobbyFormBtn");
+
+  if (form.style.display === "flex") {
+    // Fermer le formulaire
+    form.style.display = "none";
+    createBtn.style.display = "block";
+    cancelBtn.style.display = "none";
+  } else {
+    // Ouvrir le formulaire
+    form.style.display = "flex";
+    createBtn.style.display = "none";
+    cancelBtn.style.display = "block";
+  }
 }
 
 // Gère la création d'un lobby

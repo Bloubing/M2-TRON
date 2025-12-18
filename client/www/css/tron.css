@@ -107,6 +107,14 @@ h2 {
   margin-top: 10px;
 }
 
+#cancelLobbyFormBtn {
+  display: none;
+}
+
+#confirmCreateLobbyBtn {
+  width: 100%;
+}
+
 input,
 button {
   padding: 10px;
